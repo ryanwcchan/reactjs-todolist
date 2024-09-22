@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import TodoCard from "./TodoCard"
 
 export default function TodoList(props) {
@@ -8,8 +9,8 @@ export default function TodoList(props) {
             <ul className="space-y-4 text-left text-gray-500 dark:text-gray-400">
                 {todos.map((todo, todoIndex)=> {
                     return (
-                        <TodoCard key={todoIndex}>
-                            <p>{todo}</p>
+                        <TodoCard {...props} key={todoIndex} index={todoIndex} >
+                            <p className="text-2xl">{todo}</p>
                         </TodoCard>
                     )
                 })}
