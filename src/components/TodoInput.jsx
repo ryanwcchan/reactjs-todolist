@@ -1,5 +1,3 @@
-import { useState } from "react"
-
 export default function TodoInput(props) {
     // eslint-disable-next-line react/prop-types
     const { handleAddTodos, todoValue, setTodoValue } = props

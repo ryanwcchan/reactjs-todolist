@@ -12,13 +12,14 @@ function App() {
   }
 
   function handleAddTodos(newTodo) {
-    const newTodoList = [...todos, newTodo]
+    const todoWithChecked = { text: newTodo, checked: false };
+    const newTodoList = [...todos, todoWithChecked]
     persistData(newTodoList)
     setTodos(newTodoList)
   }
 
   function handleDeleteTodo(index) {
-    const newTodoList = todos.filter((todo, todoIndex) => {
+    const newTodoList = todos.filter((_, todoIndex) => {
       return todoIndex !== index
     })
     persistData(newTodoList)
@@ -26,9 +27,17 @@ function App() {
   }
 
   function handleEditTodo(index) {
-    const editValue = todos[index]
+    const editValue = todos[index].text
     setTodoValue(editValue)
     handleDeleteTodo(index)
+  }
+
+  function toggleChecked(index) {
+    const newTodoList = todos.map((todo, todoIndex)=> {
+      return todoIndex === index ? { ...todo, checked: !todo.checked } : todo
+    })
+    persistData(newTodoList)
+    setTodos(newTodoList)
   }
 
   useEffect(() => {
@@ -42,13 +51,30 @@ function App() {
     }
 
     localTodos = JSON.parse(localTodos).todos
-    setTodos(localTodos)
+    if (Array.isArray(localTodos)) {
+      const validTodos = localTodos.map(todo => {
+        return {
+          text: todo.text || '',
+          checked: todo.checked === true
+        }
+      })
+      setTodos(validTodos)
+    }
   }, [])
 
   return (
     <main>
-      <TodoInput todoValue={todoValue} setTodoValue={setTodoValue} handleAddTodos={handleAddTodos} />
-      <TodoList todos={todos} handleDeleteTodo={handleDeleteTodo} handleEditTodo={handleEditTodo} />
+      <TodoInput 
+        todoValue={todoValue} 
+        setTodoValue={setTodoValue} 
+        handleAddTodos={handleAddTodos} 
+      />
+      <TodoList 
+        todos={todos} 
+        handleDeleteTodo={handleDeleteTodo} 
+        handleEditTodo={handleEditTodo} 
+        toggleChecked={toggleChecked}
+      />
     </main>
   )
 }

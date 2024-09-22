@@ -1,7 +1,7 @@
 export default function TodoCard(props) {
     // eslint-disable-next-line react/prop-types
-    const { children, handleDeleteTodo, index, handleEditTodo } = props
-
+    const { children, handleDeleteTodo, index, handleEditTodo, toggleChecked, checked } = props
+    
     return (
         <>
             <li className="flex justify-between items-center">
@@ -17,7 +17,9 @@ export default function TodoCard(props) {
                         dark:bg-gray-700 
                         dark:border-gray-600
                         "
-                    />
+                    checked={checked}
+                    onChange={() => toggleChecked(index)}
+                />
                 <div className="flex item-center">
                     {children}
                 </div>
